@@ -107,7 +107,12 @@ public struct GenerableMacro: MemberMacro, ExtensionMacro {
                 let identifier = binding.pattern.as(IdentifierPatternSyntax.self)
             {
                 let propertyName = identifier.identifier.text
-                let propertyType = binding.typeAnnotation?.type.description ?? "String"
+                // Trailing trivia (e.g. the space before `= []` in a defaulted
+                // property) is part of the type's description, and would defeat
+                // the suffix matching used to classify the type.
+                let propertyType =
+                    binding.typeAnnotation?.type.description.trimmingCharacters(in: .whitespacesAndNewlines)
+                    ?? "String"
                 let guideInfo = extractGuideInfo(from: varDecl.attributes)
 
                 properties.append(

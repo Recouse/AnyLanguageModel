@@ -451,8 +451,8 @@ public struct GenerationSchema: Equatable, Codable, CustomDebugStringConvertible
         self.defs = defs
     }
 
-    static func primitive<T: Generable>(_: T.Type, node: Node) -> GenerationSchema {
-        GenerationSchema(root: node, defs: [:])
+    static func primitive<T: Generable>(_: T.Type, node: Node, defs: [String: Node] = [:]) -> GenerationSchema {
+        GenerationSchema(root: node, defs: defs)
     }
 
     func withResolvedRoot() -> GenerationSchema? {

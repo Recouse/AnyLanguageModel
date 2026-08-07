@@ -266,9 +266,12 @@ extension Array: Generable where Element: Generable {
             minItems: nil,
             maxItems: nil
         )
+        // The element's root may be (or contain) a `$ref`, so its definitions
+        // have to travel with the array schema or the references dangle.
         return GenerationSchema.primitive(
             [Element].self,
-            node: .array(arrayNode)
+            node: .array(arrayNode),
+            defs: elementSchema.defs
         )
     }
 }
