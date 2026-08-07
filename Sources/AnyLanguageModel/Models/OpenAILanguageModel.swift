@@ -415,6 +415,33 @@ public struct OpenAILanguageModel: LanguageModel {
         apiVariant: APIVariant = .chatCompletions,
         session: HTTPSession = makeDefaultSession(),
     ) {
+        self.init(
+            baseURL: baseURL,
+            apiKey: tokenProvider,
+            headers: headerProvider,
+            model: model,
+            apiVariant: apiVariant,
+            session: session
+        )
+    }
+
+    /// Creates an OpenAI language model.
+    ///
+    /// - Parameters:
+    ///   - baseURL: The base URL for the API endpoint. Defaults to OpenAI's official API.
+    ///   - apiKey: Your OpenAI API key or a closure that returns it.
+    ///   - headers: Custom HTTP headers or a closure that returns them.
+    ///   - model: The model identifier (for example, "gpt-4" or "gpt-3.5-turbo").
+    ///   - apiVariant: The API variant to use. Defaults to `.chatCompletions`.
+    ///   - session: The HTTP session or client used for network requests.
+    public init(
+        baseURL: URL = defaultBaseURL,
+        apiKey tokenProvider: @escaping @Sendable () -> String,
+        headers headerProvider: @escaping @Sendable () -> [String: String] = { [:] },
+        model: String,
+        apiVariant: APIVariant = .chatCompletions,
+        session: HTTPSession = makeDefaultSession(),
+    ) {
         var baseURL = baseURL
         if !baseURL.path.hasSuffix("/") {
             baseURL = baseURL.appendingPathComponent("")
