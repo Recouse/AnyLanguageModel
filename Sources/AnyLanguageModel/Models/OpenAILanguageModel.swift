@@ -436,8 +436,8 @@ public struct OpenAILanguageModel: LanguageModel {
     ///   - session: The HTTP session or client used for network requests.
     public init(
         baseURL: URL = defaultBaseURL,
-        apiKey tokenProvider: @escaping @Sendable () -> String,
-        headers headerProvider: @escaping @Sendable () -> [String: String] = { [:] },
+        apiKey tokenProvider: @escaping @Sendable () async throws -> String,
+        headers headerProvider: @escaping @Sendable () async throws -> [String: String] = { [:] },
         model: String,
         apiVariant: APIVariant = .chatCompletions,
         session: HTTPSession = makeDefaultSession(),
