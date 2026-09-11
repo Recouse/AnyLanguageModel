@@ -636,9 +636,7 @@ public struct OpenAILanguageModel: LanguageModel {
             let resp: Responses.Response = try await httpSession.fetch(
                 .post,
                 url: url,
-                headers: [
-                    "Authorization": "Bearer \(tokenProvider())"
-                ],
+                headers: try await buildHeaders(),
                 body: body
             )
 
